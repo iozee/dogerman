@@ -173,6 +173,7 @@ public class DogServiceImpl implements DogService {
   @Override
   public List<Dog> getMyDogs() {
     User user = ((UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
     return dao.getMyDogs(user);
   }
 
