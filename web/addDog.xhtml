@@ -1,0 +1,78 @@
+<ui:composition
+        template="/WEB-INF/templates/personalTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:sec="http://www.springframework.org/security/tags">
+    <ui:define name="accountContent">
+        <h:form enctype="multipart/form-data" prependId="false">
+            <p:panel header="Добавить собаку">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="name" value="Имя"/>
+                    <p:inputText autocomplete="off" id="name" value="#{dogMB.entity.name}" required="true"
+                                 validatorMessage="Имя должно состоять из русских или английских букв"
+                                 requiredMessage="Заполните имя">
+                        <f:validateRegex pattern="^[a-zA-Zа-яА-Я]{2,25}$"/>
+                    </p:inputText>
+                    <p:message for="name"/>
+
+                    <h:outputLabel value="Порода *" for="breedInput"/>
+                    <p:autoComplete id="breedInput"
+                                    dropdown="true"
+                                    completeMethod="#{dogMB.completeBreed}"
+                                    converter="breedConverter"
+                                    value="#{dogMB.breed}"
+                                    var="p"
+                                    itemLabel="#{p.name}"
+                                    itemValue="#{p}"
+                                    required="true" requiredMessage="Укажите породу"
+                                    forceSelection="true"
+                                    cache="true">
+                        <f:facet name="itemtip">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                фотка
+                                <h:outputText value="#{p.name}"/>
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:autoComplete>
+                    <p:message for="breedInput"/>
+                    <h:outputLabel value="Фотографии *" for="imagesForView"/>
+                    <p:fileUpload id="imagesForView"
+                                  fileUploadListener="#{dogMB.imageUploadMutiple.handleUpload}"
+                                  mode="advanced"
+                                  label="Выбрать"
+                                  uploadLabel="Загрузить"
+                                  cancelLabel="Отмена"
+                                  previewWidth="40"
+                                  auto="true"
+                                  invalidSizeMessage="Размер файла не должен превышать 1 Мб"
+                                  invalidFileMessage="Допустимые форматы изображений: JPG, JPEG, PNG"
+                                  fileLimitMessage="Максимум 5 фотографий"
+                                  multiple="true"
+                                  update="uploadedItems"
+                                  sizeLimit="1000000"
+                                  fileLimit="5"
+                                  allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                    <p:outputPanel id="uploadedItems">
+                        <c:forEach items="#{dogMB.imageUploadMutiple.uploadedImages}" var="image">
+                            <h:outputText value="#{image.fileName}"/>
+                            <br/>
+                        </c:forEach>
+                    </p:outputPanel>
+                </h:panelGrid>
+                <p:commandButton value="Добавить" action="#{dogMB.addDog}" styleClass="ui-priority-primary"
+                                 validateClient="true" ajax="false"/>
+            </p:panel>
+        </h:form>                          <!--
+        <script type="text/javascript">
+            oncomplete="updateImagesUrl();"
+            function updateImagesUrl() {
+                var img = $("#uploadedItems").find("img");
+                img.attr("src", img.attr("src") + "&amp;ts=" + (new Date).getTime());
+            }
+        </script>                                -->
+    </ui:define>
+</ui:composition>

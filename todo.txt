@@ -1,0 +1,13 @@
+секционирование БД (vote)
+git
+click outside
+rotate imageForView
+
+http://www.primefaces.org/showcase-ext/sections/utils/importConstants.jsf
+http://www.primefaces.org/showcase/ui/wizard.jsf
+http://www.primefaces.org/showcase-ext/sections/imageAreaSelect/selectionWithRotateAndResize.jsf
+http://www.primefaces.org/showcase-ext/views/inputNumber.jsf
+http://www.primefaces.org/showcase-ext/views/keyFilter.jsf
+http://www.primefaces.org/showcase-ext/views/tooltip.jsf
+http://www.primefaces.org/showcase-ext/sections/waypoint/stickyElements.jsf
+http://www.primefaces.org/showcase/ui/treeHorizontal.jsf

@@ -1,0 +1,21 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sec="http://www.springframework.org/security/tags">
+    <p:menubar>
+        <p:menuitem value="Главная" url="/" icon="ui-icon-bullet"/>
+        <p:menuitem value="Собаки" url="dog" icon="ui-icon-bullet"/>
+        <p:menuitem value="Голосуй" url="vote" icon="ui-icon-bullet"/>
+        <p:menuitem value="Хозяева" url="user" icon="ui-icon-bullet"/>
+        <p:menuitem value="Войти" url="login" icon="ui-icon-bullet" rendered="#{sec:ifAnyGranted('ROLE_ANONYMOUS')}"/>
+        <p:menuitem value="Регистрация" url="register" icon="ui-icon-bullet"
+                    rendered="#{sec:ifAnyGranted('ROLE_ANONYMOUS')}"/>
+        <p:menuitem value="Личный кабинет" url="personal" icon="ui-icon-bullet"
+                    rendered="#{sec:ifAnyGranted('ROLE_USER')}"/>
+        <p:menuitem value="Выйти" url="j_spring_security_logout" icon="ui-icon-bullet"
+                    rendered="#{sec:ifAnyGranted('ROLE_USER')}"/>
+    </p:menubar>
+</ui:composition>

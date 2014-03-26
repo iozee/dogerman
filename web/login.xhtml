@@ -1,0 +1,31 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Войти на сайт</ui:define>
+    <ui:define name="content">
+        <h:form id="loginForm" prependId="false">
+            <p:dialog header="Войти на сайт" widgetVar="dlg" resizable="false" dynamic="true" visible="true"
+                      closable="false"
+                      draggable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="j_username" value="логин:"/>
+                    <p:inputText name="j_username" id="j_username" required="true" label="username">
+                    </p:inputText>
+                    <h:outputLabel for="j_password" value="пароль:"/>
+                    <h:inputSecret name="j_password" id="j_password" required="true" label="password"/>
+                    <button type="submit"
+                            onclick="document.getElementById('loginForm').action='j_spring_security_check';"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                            role="button" aria-disabled="false">
+                        <span class="ui-button-text ui-c">
+                            Вход
+                        </span>
+                    </button>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

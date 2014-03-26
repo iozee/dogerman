@@ -1,0 +1,18 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Личный кабинет</ui:define>
+    <ui:define name="content">
+        <p:menu>
+            <p:menuitem value="Мои собаки" url="myDogs" icon="ui-icon-bullet"/>
+            <p:menuitem value="Добавить собаку" url="addDog" icon="ui-icon-bullet"/>
+            <p:menuitem value="Мои друзья" url="myFriends" icon="ui-icon-bullet"/>
+            <p:menuitem value="Сообщения" url="messages" icon="ui-icon-bullet"/>
+            <p:menuitem value="Профиль" url="profile" icon="ui-icon-bullet"/>
+        </p:menu>
+        <ui:insert name="accountContent"/>
+    </ui:define>
+</ui:composition>

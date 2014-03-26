@@ -1,0 +1,15 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:sec="http://www.springframework.org/security/tags"
+        xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:commandLink styleClass="modal"
+                   rendered="#{sec:ifAnyGranted('ROLE_ANONYMOUS')}">ROLE_ANONYMOUS</p:commandLink>
+    <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+        ROLE_ANONYMOUS
+    </sec:authorize>
+</ui:composition>

@@ -1,0 +1,42 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Регистрация</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:panel header="Регистрация">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="name" value="Имя"/>
+                    <p:inputText autocomplete="off" id="name" value="#{userMB.entity.name}" required="true"
+                                 validatorMessage="Имя должно состоять из английских букв"
+                                 requiredMessage="Заполните имя">
+                        <f:validateRegex pattern="^[a-zA-Z]{2,25}$"/>
+                    </p:inputText>
+                    <p:message for="name"/>
+
+                    <p:outputLabel for="pwd1" value="Пароль"/>
+                    <p:password autocomplete="off" id="pwd1" value="#{userMB.entity.password}" match="pwd2"
+                                required="true"
+                                validatorMessage="Заполните пароль, минимум 3 символа"
+                                requiredMessage="Заполните пароль">
+                        <f:validateRegex pattern="^.{3,}"/>
+                    </p:password>
+                    <p:message for="pwd1"/>
+
+                    <p:outputLabel for="pwd2" value="Повторите пароль"/>
+                    <p:password autocomplete="off" id="pwd2" value="#{userMB.entity.password}" required="true"
+                                validatorMessage="Заполните пароль, минимум 3 символа"
+                                requiredMessage="Повторите пароль">
+                        <f:validateRegex pattern="^.{3,}"/>
+                    </p:password>
+                    <p:message for="pwd2"/>
+                </h:panelGrid>
+                <p:commandButton value="Зарегистрироваться" action="#{userMB.register}" styleClass="ui-priority-primary"
+                                 validateClient="true" ajax="false"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,30 @@
+<ui:composition
+        template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jstl/core">
+    <ui:define name="title">Хозяева</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataGrid var="user" value="#{userMB.all}" columns="5" rows="12">
+                <p:panel style="text-align: center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:commandLink update=":form:userDetail"
+                                       oncomplete="PF('userDialog').show()"
+                                       styleClass="modal">
+                            <h:outputText value="#{user.name}"/>
+                            <f:setPropertyActionListener value="#{user}" target="#{userMB.entity}"/>
+                        </p:commandLink>
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+            <p:dialog widgetVar="userDialog" modal="true" draggable="false" resizable="false" closeOnEscape="true"
+                      id="userDetail" dynamic="true" appendToBody="true">
+                <h:outputText value="#{userMB.entity.name}"/>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,89 @@
+<ui:composition
+        template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:sec="http://www.springframework.org/security/tags"
+        xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:define name="title">Собаки</ui:define>
+    <ui:define name="content">
+        <p:outputPanel rendered="#{empty dogMB.all}">
+            Ни одной собаки в базе не найдено
+            <a href="addDog">Добавить собаку</a>
+        </p:outputPanel>
+        <h:form id="dogsForm" rendered="#{not empty dogMB.all}">
+            <p:dataGrid var="dog" value="#{dogMB.all}" columns="5" rows="12" id="dogDataGrid">
+                <p:panel style="text-align: center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:commandLink update=":dogsForm:dogPanelModal"
+                                       oncomplete="PF('dogDialog').show()"
+                                       styleClass="modal">
+                            <h:graphicImage value="#{dog.avatar.path}" rendered="#{not empty dog.avatar.path}"/>
+                            <br/>
+                            <h:outputText value="#{dog.name}"/>
+                            <f:setPropertyActionListener value="#{dog}" target="#{dogMB.entity}"/>
+                        </p:commandLink>
+                        <h:outputText value="likes: #{dogMB.getUpVotes(dog)}"/>
+                        <h:outputText value="dislikes: #{dogMB.getDownVotes(dog)}"/>
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+            <p:dialog widgetVar="dogDialog" modal="true" draggable="false" resizable="false" closeOnEscape="true"
+                      id="dogDetail" dynamic="true" appendToBody="true">
+                <p:ajax event="close" update=":dogsForm:dogDataGrid"/>
+                <p:outputPanel style="text-align:left;" id="dogPanelModal">
+                    <p:panelGrid style="border: 0">
+                        <p:row>
+                            <p:column rendered="#{not empty dogMB.entity.avatar.path}">
+                                <p:lightBox styleClass="imagebox">
+                                    <h:outputLink value="#{dogMB.entity.avatar.path}">
+                                        <h:graphicImage value="#{dogMB.entity.avatar.path}"/>
+                                    </h:outputLink>
+                                </p:lightBox>
+                            </p:column>
+                            <p:column>
+                                <h:outputLabel for="name" value="name: "/>
+                                <h:outputText id="name" value="#{dogMB.entity.name}"/>
+                                <br/>
+                                <c:if test="#{dogMB.entity.user != null}">
+                                    <h:outputLabel for="user" value="user: "/>
+                                    <h:outputText id="user" value="#{dogMB.entity.user.name}"/>
+                                    <br/>
+                                </c:if>
+                                <c:if test="#{dogMB.entity.breed != null}">
+                                    <h:outputLabel for="breed" value="breed: "/>
+                                    <h:outputText id="breed" value="#{dogMB.entity.breed.name}"/>
+                                    <br/>
+                                </c:if>
+                                <c:set var="likes" value="#{dogMB.getUpVotes(dogMB.entity)}"/>
+                                <c:set var="dislikes" value="#{dogMB.getDownVotes(dogMB.entity)}"/>
+                                <br/>
+                                <p:commandButton value="like (#{likes})"
+                                                 widgetVar="likeButton"
+                                                 actionListener="#{dogMB.like}"
+                                                 styleClass="ui-priority-primary"
+                                                 update=":dogsForm:dogPanelModal"
+                                                 oncomplete="likeButton.disable(); dislikeButton.disable();"/>
+                                <p:commandButton value="dislike (#{dislikes})"
+                                                 widgetVar="dislikeButton"
+                                                 actionListener="#{dogMB.dislike}"
+                                                 styleClass="ui-priority-primary"
+                                                 update=":dogsForm:dogPanelModal"
+                                                 oncomplete="likeButton.disable(); dislikeButton.disable();"/>
+                                <br/>
+                                <p:commandButton value="random dog"
+                                                 styleClass="ui-priority-secondary"
+                                                 update=":dogsForm:dogPanelModal">
+                                    <f:setPropertyActionListener value="${dogMB.randomDog}" target="${dogMB.entity}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

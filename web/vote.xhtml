@@ -1,0 +1,61 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core">
+    <ui:define name="title">Голосование</ui:define>
+    <ui:define name="content">
+        <f:event listener="#{dogMB.initRandomDog}" type="preRenderView"/>
+        <h:form id="dogsForm">
+            <p:outputPanel style="text-align:left;" id="dogPanelModal">
+                <p:panelGrid style="border: 0">
+                    <p:row>
+                        <p:column rendered="#{not empty dogMB.entity.avatar}">
+                            <p:lightBox styleClass="imagebox">
+                                <h:outputLink value="#{dogMB.entity.avatar.path}">
+                                    <h:graphicImage value="#{dogMB.entity.avatar.path}"/>
+                                </h:outputLink>
+                            </p:lightBox>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel for="name" value="name: "/>
+                            <h:outputText id="name" value="#{dogMB.entity.name}"/>
+                            <br/>
+                            <c:if test="#{dogMB.entity.user != null}">
+                                <h:outputLabel for="user" value="user: "/>
+                                <h:outputText id="user" value="#{dogMB.entity.user.name}"/>
+                                <br/>
+                            </c:if>
+                            <c:if test="#{dogMB.entity.breed != null}">
+                                <h:outputLabel for="breed" value="breed: "/>
+                                <h:outputText id="breed" value="#{dogMB.entity.breed.name}"/>
+                                <br/>
+                            </c:if>
+                            <c:set var="likes" value="#{dogMB.getUpVotes(dogMB.entity)}"/>
+                            <c:set var="dislikes" value="#{dogMB.getDownVotes(dogMB.entity)}"/>
+                            <br/>
+                            <p:commandButton value="like (#{likes})"
+                                             widgetVar="likeButton"
+                                             actionListener="#{dogMB.like}"
+                                             styleClass="ui-priority-primary"
+                                             update=":dogsForm:dogPanelModal"
+                                             onclick="likeButton.disable(); dislikeButton.disable();">
+                                <f:setPropertyActionListener value="#{dogMB.randomDog}" target="#{dogMB.entity}"/>
+                            </p:commandButton>
+                            <p:commandButton value="dislike (#{dislikes})"
+                                             widgetVar="dislikeButton"
+                                             actionListener="#{dogMB.dislike}"
+                                             styleClass="ui-priority-primary"
+                                             update=":dogsForm:dogPanelModal"
+                                             onclick="likeButton.disable(); dislikeButton.disable();">
+                                <f:setPropertyActionListener value="#{dogMB.randomDog}" target="#{dogMB.entity}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>
